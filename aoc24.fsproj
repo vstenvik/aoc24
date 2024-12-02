@@ -9,6 +9,9 @@
         <Compile Include="Program.fs"/>
         <None Include="day1\day1.fsx" />
         <Content Include="day1\input.txt" />
+        <None Include="day2\day2.fsx" />
+        <None Include="day2\day2_2.fsx" />
+        <Content Include="day2\input.txt" />
     </ItemGroup>
 
 </Project>
