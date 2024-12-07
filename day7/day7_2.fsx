@@ -22,13 +22,18 @@ let parse (str : string) =
         let testValue = int64 sp[0]
         let list = split " " sp[1] |> Array.map int64 |> List.ofArray
         testValue, list)
+    
+let (.||) (a: int64) (b: int64) =
+    a.ToString() + b.ToString() |> int64
 
 let rec isValid ((testValue, nums): Line) =
     match nums with
     | [] -> false
     | [n] -> testValue = n
     | a::b::rest ->
-        isValid (testValue, (a * b)::rest ) || isValid (testValue, (a + b)::rest)
+        isValid (testValue, (a * b)::rest )
+        || isValid (testValue, (a + b)::rest)
+        || isValid (testValue, (a .|| b)::rest)
 
 let solve (str: string) =
     parse str
@@ -39,6 +44,3 @@ let input = File.ReadAllText "day7/input.txt"
 
 solve example
 solve input
-
-
-
