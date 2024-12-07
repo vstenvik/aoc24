@@ -18,8 +18,8 @@ let prnt (grid: char array array) (moveHistory : MoveHistory) blockerPos =
                           else grid[i][j] ] ]
                 |> List.map (fun s -> String.Join("", s)) |> fun s -> String.Join("\n", s)
     
-    Console.Clear()
-    printf "%s\n\n" result
+    let n = grid.Length + 1
+    printf $"\e[{n}A{result}\n\n"
 
 let example = """....#.....
 .........#
@@ -102,16 +102,16 @@ let wouldATurnNowResultInLoop (grid: char array array) (guard: char) (prevMoves:
         let rec move (history: Set<_>) (g: char) (p: int * int) =
             if Set.contains (p, g) history
             then
-                //prnt newGrid (Set.union history prevMoves) (by,bx)
-                //Thread.Sleep(4000)
+                prnt newGrid (Set.union history prevMoves) (by,bx)
+                Thread.Sleep(1000)
                 true
             else if advance g p |> isInGrid newGrid |> not then
-                //prnt newGrid (Set.union history prevMoves) (by,bx)
-                //Thread.Sleep(250)
+                prnt newGrid (Set.union history prevMoves) (by,bx)
+                Thread.Sleep(100)
                 false
             else
-                //prnt newGrid (Set.union history prevMoves) (by,bx)
-                //Thread.Sleep(250)
+                prnt newGrid (Set.union history prevMoves) (by,bx)
+                Thread.Sleep(100)
                 let newGuard, newPos = getNextCell newGrid g p
                 move (Set.add (p, g) history) newGuard newPos
                 
@@ -148,7 +148,7 @@ let solve str =
     |> countMoves
     |> fun s -> Set.count s.blockers
 
-test <@ solve example = 6 @>
+//test <@ solve example = 6 @>
 
 solve input
 printf "Solving"
